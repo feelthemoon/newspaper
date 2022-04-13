@@ -3,6 +3,7 @@ import Vue from 'vue';
 export const state = () => ({
   token: null,
   errors: {},
+  loading: {},
 });
 
 export const mutations = {
@@ -21,6 +22,13 @@ export const mutations = {
       });
     }
   },
+  SET_LOADING(state, loadingData) {
+    if (state.loading[loadingData.namespace]) {
+      state.loading[loadingData.namespace] = loadingData.value;
+    } else {
+      Vue.set(state.loading, loadingData.namespace, loadingData.value);
+    }
+  },
   RESET_ERROR(state, namespace) {
     if (namespace) {
       state.errors[namespace] = null;
@@ -32,9 +40,13 @@ export const mutations = {
 
 export const actions = {
   setError({ commit }, { errorData, namespace }) {
-    const [errorType, errorMessage] = Object.entries(
-      JSON.parse(errorData.response.data.message)
-    ).flat();
+    let errorType = '',
+      errorMessage = '';
+    if (errorData.response.data) {
+      [errorType, errorMessage] = Object.entries(
+        JSON.parse(errorData.response.data.message)
+      ).flat();
+    }
     commit('SET_ERROR', {
       namespace,
       errorType,

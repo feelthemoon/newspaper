@@ -53,13 +53,8 @@
 </template>
 
 <script>
-import AuthForm from '~/components/auth-form';
-
 export default {
   name: 'layout-header',
-  components: {
-    AuthForm,
-  },
   data() {
     return {
       links: [

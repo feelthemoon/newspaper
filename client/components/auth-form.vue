@@ -158,20 +158,20 @@ export default {
   },
   methods: {
     ...mapActions({
-      signin: 'auth/signin',
-      signup: 'auth/signup',
-      resetError: 'resetErrors',
+      action_signin: 'auth/signin',
+      action_signup: 'auth/signup',
+      action_resetError: 'resetErrors',
     }),
     async auth() {
-      this.resetError();
+      this.action_resetError();
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
         this.isLoading = true;
         if (this.authType === 0) {
-          await this.signin(this.userData);
+          await this.action_signin(this.userData);
         } else {
-          await this.signup({
+          await this.action_signup({
             email: this.userData.email,
             password: this.userData.password,
           });
@@ -189,8 +189,8 @@ export default {
         password: '',
         rememberMe: false,
       };
-      this.resetError('signin');
-      this.resetError('signup');
+      this.action_resetError('signin');
+      this.action_resetError('signup');
     },
   },
 };
