@@ -34,7 +34,7 @@ export class AuthorizationService {
     }
     const expiresIn = user.rememberMe ? '72h' : '24h';
 
-    return this.jwtService.sign({ id: foundUser.id }, {expiresIn});
+    return this.jwtService.sign({ id: foundUser.id }, { expiresIn });
   }
   async signup(user: AuthorizationDto) {
     const emailBusy = await this.userService.findBy('email', user.email);
