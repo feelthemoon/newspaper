@@ -1,34 +1,30 @@
 <template>
   <div class="listing">
-    <v-container fluid>
+    <v-container fluid class="d-flex listing__container">
       <v-row>
-        <v-col v-for="(article, index) in articles" :key="index" :cols="3">
+        <v-col v-for="(article, index) in articles" :key="index" :cols="4">
           <article-card :article="article"></article-card>
         </v-col>
       </v-row>
     </v-container>
     <client-only>
-      <infinite-loading @infinite="loadArticles">
-        <div slot="no-more">Вы посмотрели все новости😊</div>
-        <div slot="spinner">Загружаем...</div>
-      </infinite-loading>
+      <div class="d-flex justify-center" v-intersect="infiniteScroll">
+        <span v-if="loading('articles')">Загружаем...</span>
+        <span v-else-if="!hasNewArticles || page >= 20">Вы посмотрели все новости😊</span>
+      </div>
     </client-only>
   </div>
 </template>
 
 <script>
-import InfiniteLoading from 'vue-infinite-loading';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'listing-articles',
-  components: {
-    InfiniteLoading,
-  },
   props: {
     articlesType: {
       type: String,
-      default: () => '',
+      default: () => 'any',
     },
   },
   data() {
@@ -40,21 +36,40 @@ export default {
     ...mapGetters({
       articles: 'articles/articles',
       hasNewArticles: 'articles/hasNewArticles',
+      loading: 'loading',
     }),
+  },
+  created() {
+    this.action_resetArticles();
+    this.loadArticles();
   },
   methods: {
     ...mapActions({
       action_loadArticles: 'articles/loadArticles',
+      action_resetArticles: 'articles/resetArticles',
     }),
-    async loadArticles($state) {
-      await this.action_loadArticles(this.page);
-      if (this.hasNewArticles) {
-        $state.loaded();
-      } else {
-        $state.complete();
+    async loadArticles() {
+      if (this.page < 20) {
+        await this.action_loadArticles({
+          page: this.page,
+          type: this.articlesType,
+        });
+        this.page++;
       }
-      this.page++;
     },
+    infiniteScroll(_, __, isIntersecting) {
+      if (isIntersecting) {
+        this.loadArticles();
+      }
+    }
   },
 };
 </script>
+
+<style scoped lang="scss">
+.listing {
+  &__container {
+    min-height: 100vh;
+  }
+}
+</style>

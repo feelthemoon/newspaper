@@ -11,6 +11,7 @@ export class ArticleController {
     try {
       const articles = await this.articleService.getLatestNews(
         +req.params.page,
+        req.query.category?.toString() || 'any',
       );
       res.status(200).send(articles);
     } catch (e) {

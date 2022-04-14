@@ -23,7 +23,7 @@
             <img src="~/static/logo.svg" alt="NewsPaper" />
           </nuxt-link>
         </div>
-        <v-form @submit.prevent class="header__search ml-8">
+        <v-form @submit.prevent class="header__search ml-4">
           <v-text-field
             hide-details
             dense
@@ -58,14 +58,11 @@ export default {
   data() {
     return {
       links: [
-        { path: 'technology', title: 'Технологии' },
-        { path: 'lifestyle', title: 'Образ жизни' },
-        { path: 'programming', title: 'Разработка' },
-        { path: 'science', title: 'Наука' },
+        { path: 'general', title: 'Главное' },
+        { path: 'gadgets', title: 'Гаджеты' },
+        { path: 'software', title: 'Программное обеспечение' },
         { path: 'sports', title: 'Спорт' },
-        { path: 'finance', title: 'Финансы' },
-        { path: 'politics', title: 'Политика' },
-        { path: 'game', title: 'Игры' },
+        { path: 'regional', title: 'Региональные новости' },
       ],
     };
   },
@@ -93,7 +90,7 @@ export default {
     box-shadow: 0 10px 10px -10px rgb(49 94 251 / 40%);
     .logo {
       img {
-        width: 160px;
+        width: fit-content;
         height: 50px;
       }
     }
