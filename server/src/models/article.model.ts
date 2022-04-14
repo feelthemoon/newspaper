@@ -39,6 +39,6 @@ export class Article extends Model<Article, IArticle> {
   @Column({ type: DataType.DATE, allowNull: false })
   publishedDate: string;
 
-  @Column({ type: DataType.ARRAY(DataType.JSON), allowNull: true })
+  @Column({ type: DataType.ARRAY(DataType.STRING), allowNull: true })
   categories: Array<string>;
 }

@@ -89,8 +89,8 @@
           :color="categories[cat] || 'primary lighten-2'"
           class="font-weight-bold text-uppercase"
           label
-          small
-          v-for="(cat, index) in article.categories"
+          x-small
+          v-for="(cat, index) in filteredCategories"
           :key="index"
           >{{ translateCategory(cat) }}</v-chip
         >
@@ -134,14 +134,11 @@ export default {
       showDescription: false,
       showAuthors: false,
       categories: {
-        technology: 'yellow lighten-2',
-        lifestyle: 'indigo lighten-2',
-        game: 'red lighten-2',
-        programming: 'cyan lighten-2',
-        science: 'teal lighten-2',
-        politics: 'amber lighten-2',
+        security: 'yellow lighten-2',
+        software: 'blue lighten-3',
+        general: 'red lighten-2',
+        regional: 'cyan lighten-2',
         sports: 'orange lighten-2',
-        finance: 'deep-orange lighten-2',
       },
     };
   },
@@ -149,6 +146,9 @@ export default {
     ...mapGetters({ translateCategory: 'articles/translateCategory' }),
     formattedDate() {
       return new Date(this.article.publishedDate).toLocaleDateString();
+    },
+    filteredCategories() {
+      return this.article.categories.filter((cat) => cat !== 'any');
     },
   },
 };

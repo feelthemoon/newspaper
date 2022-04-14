@@ -40,7 +40,7 @@ export default () => ({
     medical: 'Медицина',
     gadgets: 'Гаджеты',
     design: 'Дизайн',
-    security: 'Безопасность',
+    security: 'Гаджеты',
     mobile: 'Мобильные телефоны',
     estate: 'Эстетика',
     funny: 'Веселье',

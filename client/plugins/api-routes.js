@@ -15,8 +15,10 @@ export default ({ app }, inject) => {
     signin: 'signin',
     signup: 'signup',
     logout: 'logout',
-    articles: (type, dynamicParams = []) =>
-      `${getPrefix('articles')}/${type}/${dynamicParams.join('/')}`,
+    articles: (type, dynamicParams = [], queryParams = []) =>
+      `${getPrefix('articles')}/${type}/${dynamicParams.join(
+        '/'
+      )}?${queryParams.join('&')}`,
   };
   inject('routes', routes);
 };

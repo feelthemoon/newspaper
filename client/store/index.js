@@ -42,7 +42,7 @@ export const actions = {
   setError({ commit }, { errorData, namespace }) {
     let errorType = '',
       errorMessage = '';
-    if (errorData.response.data) {
+    if (errorData.response?.data) {
       [errorType, errorMessage] = Object.entries(
         JSON.parse(errorData.response.data.message)
       ).flat();
@@ -60,4 +60,5 @@ export const actions = {
 export const getters = {
   token: (state) => state.token,
   error: (state) => (namespace) => Object.values(state.errors[namespace] ?? {}),
+  loading: (state) => (namespace) => state.loading[namespace],
 };
