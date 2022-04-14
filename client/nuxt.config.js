@@ -24,6 +24,7 @@ export default {
     { src: '~/plugins/vuex-persist', mode: 'client' },
     { src: '~plugins/vuelidate', mode: 'client' },
     { src: '~/plugins/api-routes' },
+    { src: '~/plugins/scroll-lock', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -88,8 +88,7 @@
         <v-chip
           :color="categories[cat] || 'primary lighten-2'"
           class="font-weight-bold text-uppercase"
-          label
-          x-small
+          small
           v-for="(cat, index) in filteredCategories"
           :key="index"
           >{{ translateCategory(cat) }}</v-chip

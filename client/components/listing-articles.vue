@@ -1,9 +1,14 @@
 <template>
   <div class="listing">
     <v-container fluid class="d-flex listing__container">
-      <v-row>
+      <v-row v-scroll-lock="firstLoading">
         <v-col v-for="(article, index) in articles" :key="index" :cols="4">
-          <article-card :article="article"></article-card>
+          <v-skeleton-loader
+            v-if="firstLoading"
+            max-width="450"
+            type="card"
+          ></v-skeleton-loader>
+          <article-card v-else :article="article"></article-card>
         </v-col>
       </v-row>
     </v-container>
@@ -30,6 +35,7 @@ export default {
   data() {
     return {
       page: 1,
+      firstLoading: false,
     };
   },
   computed: {
@@ -40,8 +46,11 @@ export default {
     }),
   },
   created() {
+    this.firstLoading = true
     this.action_resetArticles();
-    this.loadArticles();
+    this.loadArticles().then(() => {
+      this.firstLoading = false;
+    });
   },
   methods: {
     ...mapActions({
