@@ -1,6 +1,6 @@
 <template>
   <v-main class="main">
-    <h1 class="main__title pl-3">Топ новостей</h1>
+    <h1 class="main__title pl-3">{{headlines[slug]}}</h1>
     <listing-articles :articles-type="slug || 'any'"></listing-articles>
   </v-main>
 </template>
@@ -9,8 +9,20 @@
 export default {
   name: 'IndexPage',
   async asyncData({ params }) {
-    const slug = params.slug === 'gadgets' ? 'security' : params.slug;
+    const slug = params.slug === 'gadgets' ? 'security' : params.slug === undefined ? 'any' : params.slug;
     return { slug }
   },
+  data() {
+    return {
+      headlines: {
+        any: 'Топ новостей',
+        security: 'Новости из мира гаджетов',
+        general: 'О главном',
+        software: 'Новости о программном обеспечении',
+        sports: 'О спорте',
+        regional: 'Региональные новости'
+      }
+    }
+  }
 };
 </script>

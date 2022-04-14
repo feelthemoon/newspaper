@@ -8,3 +8,7 @@ a {
 .main {
   padding: 15px 70px !important;
 }
+
+body.no-overflow {
+  overflow: hidden;
+}
