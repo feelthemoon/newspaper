@@ -21,7 +21,7 @@ export class Article extends Model<Article, IArticle> {
   })
   id: number;
 
-  @Column({ type: DataType.STRING(500), allowNull: false })
+  @Column({ type: DataType.STRING(500), allowNull: false, unique: true })
   title: string;
 
   @Column({ type: DataType.STRING(500), allowNull: true })
