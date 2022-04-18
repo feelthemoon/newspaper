@@ -6,6 +6,7 @@ import { lastValueFrom } from 'rxjs';
 import { RedisService } from 'nestjs-redis';
 import { Cron } from '@nestjs/schedule';
 import { Op } from 'sequelize';
+import { LoggerService } from '../utils/logger.service';
 
 @Injectable()
 export class ArticleService {
@@ -13,8 +14,9 @@ export class ArticleService {
     @InjectModel(Article) private readonly articleRepository: typeof Article,
     private readonly httpService: HttpService,
     private readonly redisService: RedisService,
+    private readonly loggerService: LoggerService,
   ) {}
-  @Cron('*/1 1-5 * * */1')
+  @Cron('*/1 1-5,13-19 * * */1')
   async localizeArticles() {
     try {
       const redisClient = await this.redisService.getClient('cache');
@@ -41,11 +43,12 @@ export class ArticleService {
       }
       await Promise.all(tasks);
       await redisClient.set('page', parseInt(page) + 1);
+      await this.loggerService.logToFile('NEW DATA HAS BEEN INSERTED');
     } catch (e) {
-      console.log(e);
+      await this.loggerService.logToFile(e);
     }
   }
-  @Cron('2 5 * * */1')
+  @Cron('2 5,18 * * */1')
   async defaultParsingPage() {
     const redisClient = await this.redisService.getClient('cache');
     await redisClient.set('page', 1);

@@ -4,10 +4,11 @@ import { ArticleController } from './article.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Article } from '../models/article.model';
 import { HttpModule } from '@nestjs/axios';
+import { LoggerService } from '../utils/logger.service';
 
 @Module({
   imports: [SequelizeModule.forFeature([Article]), HttpModule],
-  providers: [ArticleService],
+  providers: [ArticleService, LoggerService],
   controllers: [ArticleController],
 })
 export class ArticleModule {}
