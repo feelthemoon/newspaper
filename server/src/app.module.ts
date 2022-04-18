@@ -1,3 +1,4 @@
+import { Currency } from './models/currency.model';
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
@@ -23,7 +24,7 @@ import { StatisticModule } from './statistic/statistic.module';
       password: process.env.PG_PASSWORD,
       database: process.env.PG_DB_NAME,
       autoLoadModels: true,
-      models: [User, Article],
+      models: [User, Article, Currency],
     }),
     ScheduleModule.forRoot(),
     RedisModule.register({

@@ -3,4 +3,6 @@ export default () => ({
     USD: '',
     EUR: '',
   },
+  KELVIN_DEGREE: 273.15,
+  weather: {},
 });

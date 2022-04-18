@@ -38,10 +38,18 @@
         </v-form>
       </div>
       <div class="header__bottom-right d-flex align-center">
-        <div class="header__weather font-weight-bold">
-          <v-icon small>mdi-weather-pouring</v-icon>
-          <span>+12&deg;</span>
-          <span>в Москве</span>
+        <div class="header__weather d-flex align-center font-weight-bold">
+          <v-skeleton-loader
+            v-if="loading('statistic_weather')"
+            class="eur mx-3 mt-2"
+            type="text"
+            width="65"
+          ></v-skeleton-loader>
+          <template v-else>
+            <v-img height="30" width="30" :src="weatherIcon"></v-img>
+            <span>{{ celciusTempurature }}&deg;</span>
+            <span>{{ weather.name }}</span>
+          </template>
         </div>
         <div class="header__currency d-flex align-center">
           <template v-if="loading('statistic_currency')">
@@ -71,7 +79,7 @@
 </template>
 
 <script>
-import { mapGetters, createNamespacedHelpers } from 'vuex';
+import { mapMutations, mapGetters, createNamespacedHelpers } from 'vuex';
 const { mapActions } = createNamespacedHelpers('statistic');
 
 export default {
@@ -88,13 +96,48 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ currency: 'statistic/currencyCourse', loading: 'loading' }),
+    ...mapGetters({
+      currency: 'statistic/currencyCourse',
+      loading: 'loading',
+      weather: 'statistic/weather',
+      kelvinDegree: 'statistic/kelvinDegree',
+    }),
+    celciusTempurature() {
+      return Math.floor(this.weather.main?.temp - this.kelvinDegree) || '';
+    },
+    weatherIcon() {
+      if (this.weather.weather) {
+        return `https://openweathermap.org/img/wn/${this.weather.weather[0].icon}.png`;
+      }
+      return '';
+    },
   },
   created() {
+    this.updateLoading({ namespace: 'statistic_weather', value: true });
+    if (process.browser) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          this.getWeather({
+            lat: pos.coords.latitude,
+            lon: pos.coords.longitude,
+          });
+        },
+        () => {
+          this.getWeather({});
+        }
+      );
+    }
+
     this.getCurrency();
   },
   methods: {
-    ...mapActions({ getCurrency: 'getCurrencyCourse' }),
+    ...mapActions({
+      getCurrency: 'getCurrencyCourse',
+      getWeather: 'getWeather',
+    }),
+    ...mapMutations({
+      updateLoading: 'SET_LOADING',
+    }),
   },
 };
 </script>

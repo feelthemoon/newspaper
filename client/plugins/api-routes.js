@@ -11,15 +11,35 @@ const getPrefix = (prefix, hasApiPrefix = true, isAdmin = false) => {
   return apiPrefix + prefix;
 };
 
+const getQueryParamsString = (params) => {
+  let queryString = '';
+  const entries = Object.entries(params);
+
+  if (entries.length) {
+    entries.forEach(([key, value]) => {
+      queryString += `${key}=${value}&`;
+    });
+    queryString = `?${queryString.slice(0, queryString.length - 1)}`;
+  }
+  return queryString;
+};
+
+const getDynamicParamsString = (params) => {
+  if (params.length) {
+    return `/${params.join('/')}`;
+  }
+  return '';
+};
+
 export default ({ app }, inject) => {
   const routes = {
     signin: 'signin',
     signup: 'signup',
     logout: 'logout',
-    routeFactory: (prefix, type, dynamicParams = [], queryParams = []) =>
-      `${getPrefix(prefix || '')}/${type}/${dynamicParams.join(
-        '/'
-      )}?${queryParams.join('&')}`,
+    routeFactory: (prefix, type, dynamicParams = [], queryParams = {}) =>
+      `${getPrefix(prefix || '')}/${type}${getDynamicParamsString(
+        dynamicParams
+      )}${getQueryParamsString(queryParams)}`,
   };
   inject('routes', routes);
 };

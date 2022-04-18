@@ -9,12 +9,9 @@ export default {
       );
 
       const articles = await this.$axios.$get(
-        this.$routes.routeFactory(
-          'articles',
-          'latest',
-          [articleData.page],
-          [`category=${articleData.type}`]
-        )
+        this.$routes.routeFactory('articles', 'latest', [articleData.page], {
+          category: articleData.type,
+        })
       );
       if (!articles.length) {
         commit('SET_HAS_NEW_ARTICLES', false);
