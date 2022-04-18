@@ -1,16 +1,22 @@
 <template>
   <v-main class="main">
-    <h1 class="main__title pl-3">{{headlines[slug]}}</h1>
+    <h1 class="main__title pl-3">{{ headlines[slug] }}</h1>
     <listing-articles :articles-type="slug || 'any'"></listing-articles>
   </v-main>
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 export default {
   name: 'IndexPage',
   async asyncData({ params }) {
-    const slug = params.slug === 'gadgets' ? 'security' : params.slug === undefined ? 'any' : params.slug;
-    return { slug }
+    const slug =
+      params.slug === 'gadgets'
+        ? 'security'
+        : params.slug === undefined
+        ? 'any'
+        : params.slug;
+    return { slug };
   },
   data() {
     return {
@@ -20,9 +26,15 @@ export default {
         general: 'О главном',
         software: 'Новости о программном обеспечении',
         sports: 'О спорте',
-        regional: 'Региональные новости'
-      }
-    }
-  }
+        regional: 'Региональные новости',
+      },
+    };
+  },
+  created() {
+    this.setHasNewArticles(true);
+  },
+  methods: {
+    ...mapMutations({ setHasNewArticles: 'articles/SET_HAS_NEW_ARTICLES' }),
+  },
 };
 </script>

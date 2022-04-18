@@ -1,5 +1,8 @@
 <template>
-  <v-app dark class="d-flex justify-center align-center">
+  <div
+    dark
+    class="d-flex error-wrapper flex-column justify-center align-center"
+  >
     <h1 v-if="error.statusCode === 404">
       {{ pageNotFound }}
     </h1>
@@ -7,7 +10,7 @@
       {{ otherError }}
     </h1>
     <NuxtLink to="/"> Home page </NuxtLink>
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -36,8 +39,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 h1 {
   font-size: 20px;
+}
+.error-wrapper {
+  height: 100%;
 }
 </style>

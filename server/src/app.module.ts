@@ -8,6 +8,7 @@ import { Article } from './models/article.model';
 import { ArticleModule } from './article/article.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { RedisModule } from 'nestjs-redis';
+import { StatisticModule } from './statistic/statistic.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { RedisModule } from 'nestjs-redis';
     AuthorizationModule,
     UserModule,
     ArticleModule,
+    StatisticModule,
   ],
 })
 export class AppModule {}

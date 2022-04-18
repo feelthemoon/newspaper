@@ -178,8 +178,10 @@ export default {
         }
 
         this.isLoading = false;
-        this.resetForm();
-        this.authDialog = false;
+        if (!this.errors('signin') && !this.errors('signup')) {
+          this.resetForm();
+          this.authDialog = false;
+        }
       }
     },
     resetForm() {
