@@ -9,10 +9,21 @@ export class StatisticController {
   async getCurrency(@Req() req: Request, @Res() res: Response) {
     try {
       const currency = await this.statisticService.getCurrency();
-
       res.status(200).send(currency);
     } catch (error) {
       res.status(500).send({ message: JSON.stringify({ unknown: error }) });
+    }
+  }
+  @Get('/weather')
+  async getWeather(@Req() req: Request, @Res() res: Response) {
+    try {
+      const weather = await this.statisticService.getWeather({
+        lat: req.query.lat.toString(),
+        lon: req.query.lon.toString(),
+      });
+      res.status(200).send(weather);
+    } catch (error) {
+      console.log(error);
     }
   }
 }

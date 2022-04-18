@@ -39,4 +39,41 @@ export default {
       );
     }
   },
+  async getWeather({ commit }, geolocation) {
+    try {
+      let geoObj = geolocation;
+      if (!Object.keys(geolocation).length) {
+        geoObj = { lat: 55.751244, lon: 37.618423 };
+      }
+
+      const res = await this.$axios.get(
+        this.$routes.routeFactory('statistic', 'weather', [], geoObj)
+      );
+      commit('UPDATE_WEATHER', res.data);
+      commit(
+        'SET_LOADING',
+        { namespace: 'statistic_weather', value: false },
+        { root: true }
+      );
+    } catch (error) {
+      dispatch(
+        'setError',
+        { errorData: error, namespace: 'statistic_weather' },
+        { root: true }
+      );
+      dispatch(
+        'setAlert',
+        {
+          type: 'error',
+          errorStatus: error.response.status,
+        },
+        { root: true }
+      );
+      commit(
+        'SET_LOADING',
+        { namespace: 'statistic_weather', value: true },
+        { root: false }
+      );
+    }
+  },
 };

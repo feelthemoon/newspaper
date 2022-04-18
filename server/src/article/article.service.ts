@@ -43,9 +43,12 @@ export class ArticleService {
       }
       await Promise.all(tasks);
       await redisClient.set('page', parseInt(page) + 1);
-      await this.loggerService.logToFile('NEW DATA HAS BEEN INSERTED');
+      await this.loggerService.logToFile(
+        'NEW DATA HAS BEEN INSERTED',
+        './logs/article.cron.log',
+      );
     } catch (e) {
-      await this.loggerService.logToFile(e);
+      await this.loggerService.logToFile(e, './logs/article.cron.log');
     }
   }
   @Cron('2 5,18 * * */1')
