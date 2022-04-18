@@ -1,6 +1,7 @@
 export default {
-  async loadArticles({ commit, dispatch }, articleData) {
+  async loadArticles({ commit, dispatch, state }, articleData) {
     try {
+      if (!state.hasNewArticles) return;
       commit(
         'SET_LOADING',
         { namespace: 'articles', value: true },
@@ -8,7 +9,8 @@ export default {
       );
 
       const articles = await this.$axios.$get(
-        this.$routes.articles(
+        this.$routes.routeFactory(
+          'articles',
           'latest',
           [articleData.page],
           [`category=${articleData.type}`]
@@ -32,6 +34,11 @@ export default {
       dispatch(
         'setError',
         { errorData: e, namespace: 'articles' },
+        { root: true }
+      );
+      dispatch(
+        'setAlert',
+        { type: 'error', errorStatus: e.response.status },
         { root: true }
       );
     }

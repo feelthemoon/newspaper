@@ -10,13 +10,14 @@ const getPrefix = (prefix, hasApiPrefix = true, isAdmin = false) => {
       : '';
   return apiPrefix + prefix;
 };
+
 export default ({ app }, inject) => {
   const routes = {
     signin: 'signin',
     signup: 'signup',
     logout: 'logout',
-    articles: (type, dynamicParams = [], queryParams = []) =>
-      `${getPrefix('articles')}/${type}/${dynamicParams.join(
+    routeFactory: (prefix, type, dynamicParams = [], queryParams = []) =>
+      `${getPrefix(prefix || '')}/${type}/${dynamicParams.join(
         '/'
       )}?${queryParams.join('&')}`,
   };

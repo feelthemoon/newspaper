@@ -43,9 +43,27 @@
           <span>+12&deg;</span>
           <span>в Москве</span>
         </div>
-        <div class="header__currency">
-          <span class="eur red--text mx-5 font-weight-bold">EUR 89.9</span>
-          <span class="usd red--text font-weight-bold">USD 75.9</span>
+        <div class="header__currency d-flex align-center">
+          <template v-if="loading('statistic_currency')">
+            <v-skeleton-loader
+              class="eur mx-3 mt-2"
+              type="text"
+              width="65"
+            ></v-skeleton-loader>
+            <v-skeleton-loader
+              class="usd mx-3 mt-2"
+              type="text"
+              width="65"
+            ></v-skeleton-loader>
+          </template>
+          <template v-else>
+            <span class="eur red--text mx-5 font-weight-bold"
+              >EUR {{ currency.EUR }}</span
+            >
+            <span class="usd red--text font-weight-bold"
+              >USD {{ currency.USD }}</span
+            >
+          </template>
         </div>
       </div>
     </div>
@@ -53,6 +71,9 @@
 </template>
 
 <script>
+import { mapGetters, createNamespacedHelpers } from 'vuex';
+const { mapActions } = createNamespacedHelpers('statistic');
+
 export default {
   name: 'layout-header',
   data() {
@@ -65,6 +86,15 @@ export default {
         { path: 'regional', title: 'Региональные новости' },
       ],
     };
+  },
+  computed: {
+    ...mapGetters({ currency: 'statistic/currencyCourse', loading: 'loading' }),
+  },
+  created() {
+    this.getCurrency();
+  },
+  methods: {
+    ...mapActions({ getCurrency: 'getCurrencyCourse' }),
   },
 };
 </script>

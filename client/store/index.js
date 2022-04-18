@@ -4,6 +4,7 @@ export const state = () => ({
   token: null,
   errors: {},
   loading: {},
+  alerts: [],
 });
 
 export const mutations = {
@@ -36,9 +37,21 @@ export const mutations = {
       state.errors = {};
     }
   },
+  SET_ALERT(state, alertData) {
+    state.alerts.push(alertData);
+  },
 };
 
 export const actions = {
+  setAlert({ commit }, alertData) {
+    if (alertData.type === 'error' && alertData.errorStatus >= 500) {
+      return commit('SET_ALERT', {
+        type: 'error',
+        message:
+          'Кажется, что-то пошло не так. Попробуйте перезагрузить страницу',
+      });
+    }
+  },
   setError({ commit }, { errorData, namespace }) {
     let errorType = '',
       errorMessage = '';
@@ -61,4 +74,5 @@ export const getters = {
   token: (state) => state.token,
   error: (state) => (namespace) => Object.values(state.errors[namespace] ?? {}),
   loading: (state) => (namespace) => state.loading[namespace],
+  alerts: (state) => state.alerts,
 };

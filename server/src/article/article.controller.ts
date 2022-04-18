@@ -15,7 +15,7 @@ export class ArticleController {
       );
       res.status(200).send(articles);
     } catch (e) {
-      res.status(500).send({ unknown: e });
+      res.status(500).send({ message: JSON.stringify({ unknown: e }) });
     }
   }
 }
