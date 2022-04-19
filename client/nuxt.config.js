@@ -25,6 +25,7 @@ export default {
     { src: '~plugins/vuelidate', mode: 'client' },
     { src: '~/plugins/api-routes' },
     { src: '~/plugins/scroll-lock', mode: 'client' },
+    { src: '~/plugins/platform-detect' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

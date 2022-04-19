@@ -1,8 +1,9 @@
 <template>
   <header class="header">
     <div
-      class="header__top py-2 px-15 d-flex align-center justify-space-between primary"
+      class="header__top py-2 d-flex align-center justify-space-between primary"
     >
+      <mobile-menu :links="links"></mobile-menu>
       <nav class="header__nav">
         <ul class="header__links pa-0 d-flex align-center">
           <li
@@ -16,8 +17,8 @@
       </nav>
       <auth-form></auth-form>
     </div>
-    <div class="header__bottom px-12 d-flex align-center justify-space-between">
-      <div class="header__bottom-left d-flex align-center">
+    <div class="header__bottom d-flex align-center justify-space-between">
+      <div class="header__bottom-left">
         <div class="logo mt-2">
           <nuxt-link to="/">
             <img src="~/static/logo.svg" alt="NewsPaper" />
@@ -37,7 +38,7 @@
           ></v-text-field>
         </v-form>
       </div>
-      <div class="header__bottom-right d-flex align-center">
+      <div class="header__bottom-right">
         <div class="header__weather d-flex align-center font-weight-bold">
           <v-skeleton-loader
             v-if="loading('statistic_weather')"
@@ -80,9 +81,11 @@
 
 <script>
 import { mapMutations, mapGetters, createNamespacedHelpers } from 'vuex';
+import mobileMenu from './mobile-menu.vue';
 const { mapActions } = createNamespacedHelpers('statistic');
 
 export default {
+  components: { mobileMenu },
   name: 'layout-header',
   data() {
     return {
@@ -90,7 +93,7 @@ export default {
         { path: 'general', title: 'Главное' },
         { path: 'gadgets', title: 'Гаджеты' },
         { path: 'software', title: 'Программное обеспечение' },
-        { path: 'sports', title: 'Спорт' },
+        { path: 'culture', title: 'Культура' },
         { path: 'regional', title: 'Региональные новости' },
       ],
     };
@@ -156,8 +159,22 @@ export default {
       }
     }
   }
+  &__top,
+  &__bottom {
+    padding-left: 48px;
+    padding-right: 48px;
+    @media screen and (max-width: 920px) {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
   &__login {
     font-size: 14px;
+  }
+  &__nav {
+    @media screen and (max-width: 920px) {
+      display: none;
+    }
   }
   &__bottom {
     box-shadow: 0 10px 10px -10px rgb(49 94 251 / 40%);
@@ -165,6 +182,21 @@ export default {
       img {
         width: fit-content;
         height: 50px;
+      }
+    }
+    &-left {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      @media screen and (max-width: 920px) {
+        width: 100%;
+      }
+    }
+    &-right {
+      display: flex;
+      align-items: center;
+      @media screen and (max-width: 920px) {
+        display: none;
       }
     }
   }

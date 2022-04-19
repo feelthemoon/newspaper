@@ -63,3 +63,5 @@
 
 # Vim swap files
 **/*.swp
+
+**/packages

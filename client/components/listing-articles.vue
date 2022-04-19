@@ -1,14 +1,14 @@
 <template>
   <div class="listing">
-    <v-container fluid class="d-flex listing__container">
+    <v-container fluid class="listing__container">
       <v-row v-scroll-lock="firstLoading">
-        <v-col v-for="(article, index) in articles" :key="index" :cols="4">
+        <v-col v-for="(article, index) in articles" :key="index" :cols="colsCount">
           <v-skeleton-loader
             v-if="firstLoading"
             max-width="450"
             type="card"
           ></v-skeleton-loader>
-          <article-card v-else :article="article"></article-card>
+          <article-card v-else :article="article" :maxCardWidth="articleWidth"></article-card>
         </v-col>
       </v-row>
     </v-container>
@@ -44,6 +44,12 @@ export default {
       hasNewArticles: 'articles/hasNewArticles',
       loading: 'loading',
     }),
+    colsCount() {
+      return this.$device.desktop ? 4 : this.$device.tablet ? 6 : 12;
+    },
+    articleWidth() {
+      return this.$device.mobile ? 535 : 450;
+    }
   },
   created() {
     this.firstLoading = true
