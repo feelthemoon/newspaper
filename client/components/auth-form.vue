@@ -20,7 +20,7 @@
     </template>
     <template v-slot:default="dialog">
       <v-card rounded>
-        <v-tabs class="d-flex justify-center mt-2 pt-2">
+        <v-tabs class="d-flex justify-center mt-2">
           <v-tab
             :disabled="isLoading"
             @click="
@@ -42,8 +42,9 @@
         </v-tabs>
         <v-form
           :disabled="isLoading"
-          class="header__auth pb-0 px-6 pt-6 d-flex flex-column align-center"
+          class="header__auth pb-0 pt-6 d-flex flex-column align-center"
           @submit.prevent="auth"
+          :class="{ 'px-0': $device.mobile, 'px-6': !$device.mobile }"
           ref="form"
         >
           <v-text-field
@@ -70,7 +71,11 @@
           ></v-text-field>
           <div
             v-if="authType === 0"
-            class="mt-0 mb-2 pa-0 d-flex align-center justify-space-between col-md-10"
+            class="mt-0 mb-2 pa-0 d-flex justify-space-between col-md-10"
+            :class="{
+              'flex-column': $device.mobile,
+              'align-center': !$device.mobile,
+            }"
           >
             <v-checkbox
               hide-details
@@ -78,9 +83,13 @@
               v-model="userData.rememberMe"
               label="Запомнить меня"
               class="my-0 py-0"
+              :class="{ 'pl-6': $device.mobile, 'mt-n2': $device.mobile }"
               dense
             ></v-checkbox>
-            <nuxt-link to="/restore-password" @click.native="authDialog = false"
+            <nuxt-link
+              :class="{ 'text-center': $device.mobile }"
+              to="/restore-password"
+              @click.native="authDialog = false"
               >Забыли пароль?</nuxt-link
             >
           </div>
@@ -178,7 +187,8 @@ export default {
         }
 
         this.isLoading = false;
-        if (!this.errors('signin') && !this.errors('signup')) {
+
+        if (!this.errors('signin')?.length && !this.errors('signup')?.length) {
           this.resetForm();
           this.authDialog = false;
         }

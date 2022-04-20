@@ -15,6 +15,9 @@
           </li>
         </ul>
       </nav>
+      <nuxt-link to="/" class="logo logo--mobile">
+        <img src="~/static/logo-mobile.svg" alt="NewsPaper" />
+      </nuxt-link>
       <auth-form></auth-form>
     </div>
     <div class="header__bottom d-flex align-center justify-space-between">
@@ -24,7 +27,7 @@
             <img src="~/static/logo.svg" alt="NewsPaper" />
           </nuxt-link>
         </div>
-        <v-form @submit.prevent class="header__search ml-4">
+        <v-form @submit.prevent class="search ml-4">
           <v-text-field
             hide-details
             dense
@@ -163,7 +166,7 @@ export default {
   &__bottom {
     padding-left: 48px;
     padding-right: 48px;
-    @media screen and (max-width: 920px) {
+    @media screen and (max-width: $tablet) {
       padding-left: 20px;
       padding-right: 20px;
     }
@@ -172,35 +175,66 @@ export default {
     font-size: 14px;
   }
   &__nav {
-    @media screen and (max-width: 920px) {
+    @media screen and (max-width: $tablet) {
       display: none;
+    }
+  }
+  .logo {
+    img {
+      width: fit-content;
+      height: 50px;
+    }
+    @media screen and (max-width: $mobile) {
+      display: none;
+    }
+    &--mobile {
+      justify-self: center;
+      display: none;
+      img {
+        height: 36px;
+      }
+      height: 36px;
+      margin-left: -20px;
+      position: relative;
+      @media screen and (max-width: $mobile) {
+        display: block;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
   }
   &__bottom {
     box-shadow: 0 10px 10px -10px rgb(49 94 251 / 40%);
-    .logo {
-      img {
-        width: fit-content;
-        height: 50px;
-      }
+    @media screen and (max-width: 650px) {
+      padding: 10px 0 !important;
     }
     &-left {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      @media screen and (max-width: 920px) {
+      @media screen and (max-width: $tablet) {
         width: 100%;
+      }
+      @media screen and (max-width: $mobile) {
+        display: block;
+      }
+      .search {
+        @media screen and (max-width: $tablet) {
+          margin-left: 0 !important;
+          padding-left: 0 !important;
+        }
       }
     }
     &-right {
       display: flex;
       align-items: center;
-      @media screen and (max-width: 920px) {
+      @media screen and (max-width: $tablet) {
         display: none;
       }
     }
   }
-  &__search {
+  .search {
     min-width: 300px;
   }
   &__weather {

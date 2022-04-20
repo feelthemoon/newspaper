@@ -7,11 +7,20 @@ const MOBILE_REGEXP_2 =
 const TABLET_REGEXP =
   /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/i;
 
+const BREAKPOINTS = {
+  xxlDesktop: 2300,
+  xlDesktop: 1800,
+  desktop: 1440,
+  tablet: 900,
+  mobile: 650,
+};
 const detector = {
   devices: {
     mobile: false,
     tablet: false,
     desktop: false,
+    xlDesktop: false,
+    xxlDesktop: false,
   },
 
   isMobile() {
@@ -29,13 +38,11 @@ const detector = {
   },
 
   platformBySize() {
-    if (window.innerWidth <= 650) {
-      this.updateDevice('mobile');
-    } else if (window.innerWidth <= 960) {
-      this.updateDevice('tablet');
-    } else {
-      this.updateDevice('desktop');
-    }
+    Object.keys(BREAKPOINTS).forEach((breakPoint) => {
+      if (window.innerWidth <= BREAKPOINTS[breakPoint]) {
+        this.updateDevice(breakPoint);
+      }
+    });
   },
 
   isTablet() {
