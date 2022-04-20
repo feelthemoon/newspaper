@@ -11,13 +11,26 @@
 import { mapMutations } from 'vuex';
 export default {
   name: 'IndexPage',
-  async asyncData({ params }) {
+  async asyncData({ params, error }) {
+    const pages = [
+      'any',
+      'gadgets',
+      'general',
+      'software',
+      'culture',
+      'regional',
+    ];
+
     const slug =
       params.slug === 'gadgets'
         ? 'security'
         : params.slug === undefined
         ? 'any'
         : params.slug;
+
+    if (!pages.includes(slug)) {
+      error({ statusCode: 404 });
+    }
     return { slug };
   },
   data() {
