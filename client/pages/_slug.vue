@@ -1,6 +1,6 @@
 <template>
   <v-main class="main">
-    <h1 class="main__title" :class="{ 'pl-3': device && !device.mobile }">
+    <h1 class="main__title">
       {{ headlines[slug] }}
     </h1>
     <listing-articles :articles-type="slug || 'any'"></listing-articles>
@@ -14,7 +14,7 @@ export default {
   async asyncData({ params, error }) {
     const pages = [
       'any',
-      'gadgets',
+      'security',
       'general',
       'software',
       'culture',
@@ -45,11 +45,7 @@ export default {
       },
     };
   },
-  computed: {
-    device() {
-      return this.$device;
-    },
-  },
+
   created() {
     this.setHasNewArticles(true);
   },
