@@ -7,8 +7,26 @@ a {
 }
 .main {
   padding: 15px 70px !important;
+  @media screen and (max-width: $tablet) {
+    padding: 15px 0 !important;
+  }
+  .v-main__wrap {
+    @media screen and (max-width: $mobile) {
+      text-align: center;
+    }
+    .article {
+      width: 100%;
+      margin: 0 auto !important;
+    }
+  }
 }
 
 body.no-overflow {
   overflow: hidden;
+}
+
+.mobile-menu {
+  .v-overlay {
+    z-index: 1000 !important;
+  }
 }

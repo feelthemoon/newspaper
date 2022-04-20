@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 Vue.directive('scroll-lock', {
-  update: (el, { value }) => {
+  update: (_, { value }) => {
     if (value) {
       return document.body.classList.add('no-overflow');
     }

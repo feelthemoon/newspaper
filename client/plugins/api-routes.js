@@ -31,7 +31,7 @@ const getDynamicParamsString = (params) => {
   return '';
 };
 
-export default ({ app }, inject) => {
+export default (_, inject) => {
   const routes = {
     signin: 'signin',
     signup: 'signup',

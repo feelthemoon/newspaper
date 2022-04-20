@@ -1,6 +1,8 @@
 <template>
   <v-main class="main">
-    <h1 class="main__title pl-3">{{ headlines[slug] }}</h1>
+    <h1 class="main__title" :class="{ 'pl-3': device && !device.mobile }">
+      {{ headlines[slug] }}
+    </h1>
     <listing-articles :articles-type="slug || 'any'"></listing-articles>
   </v-main>
 </template>
@@ -25,10 +27,15 @@ export default {
         security: 'Новости из мира гаджетов',
         general: 'О главном',
         software: 'Новости о программном обеспечении',
-        sports: 'О спорте',
+        culture: 'О культуре',
         regional: 'Региональные новости',
       },
     };
+  },
+  computed: {
+    device() {
+      return this.$device;
+    },
   },
   created() {
     this.setHasNewArticles(true);
